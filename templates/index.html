@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Heart Disease Predictor</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- General Body & Layout --- */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa; /* Light grey background for a clean feel */
+            color: #3c4043;
+            display: grid;
+            place-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* --- Main Predictor Container --- */
+        .predictor-container {
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-top: 6px solid #d93025; /* Red accent for "heart" theme */
+        }
+
+        /* --- Header --- */
+        h1 {
+            text-align: center;
+            font-weight: 700;
+            font-size: 28px;
+            color: #202124;
+            margin-top: 0;
+            margin-bottom: 30px;
+        }
+
+        h1::before {
+            content: '❤️ '; /* Simple heart emoji icon */
+            color: #d93025;
+        }
+
+        /* --- Form Styling --- */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #5f6368;
+            font-size: 14px;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            border: 2px solid #dadce0;
+            border-radius: 8px;
+            box-sizing: border-box; /* Ensures padding doesn't affect width */
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #1a73e8; /* Blue focus color for accessibility */
+            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2);
+        }
+        
+        /* --- Predict Button --- */
+        button {
+            width: 100%;
+            background: linear-gradient(90deg, #d93025, #c2251c); /* Thematic gradient */
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 600;
+            padding: 14px 0;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(217, 48, 37, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(217, 48, 37, 0.4);
+        }
+
+        /* --- Result Display --- */
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .result h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        /* Style for a 'High Risk' prediction */
+        .result.positive {
+            background-color: #fdeded;
+            border-left: 6px solid #d93025;
+            color: #b91c1c;
+        }
+        
+        .result.positive h3 {
+            color: #d93025;
+        }
+
+        /* Style for a 'Low Risk' prediction */
+        .result.negative {
+            background-color: #e6f4ea;
+            border-left: 6px solid #1e8e3e;
+            color: #185e33;
+        }
+        
+        .result.negative h3 {
+            color: #1e8e3e;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="predictor-container">
+        <h1>Heart Disease Predictor</h1>
+        <form method="POST">
+            <div class="form-group">
+                <label for="age">👤 Age</label>
+                <input type="number" id="age" name="age" placeholder="e.g., 52" required min="0" step="1">
+            </div>
+
+            <div class="form-group">
+                <label for="resting_bp">🩺 Resting BP (mm Hg)</label>
+                <input type="number" id="resting_bp" name="resting_bp" placeholder="e.g., 120" required min="0" step="1">
+            </div>
+
+            <div class="form-group">
+                <label for="cholesterol">🩸 Cholesterol (mg/dL)</label>
+                <input type="number" id="cholesterol" name="cholesterol" placeholder="e.g., 210" required min="0" step="1">
+            </div>
+
+            <button type="submit">Predict Risk</button>
+        </form>
+
+        {% if prediction %}
+            {% if 'High' in prediction %}
+                <div class="result positive">
+                    <h3>Prediction: High Risk</h3>
+                    <p>Based on the input, there is a <strong>high likelihood</strong> of heart disease.</p>
+                </div>
+            {% else %}
+                <div class="result negative">
+                    <h3>Prediction: Low Risk</h3>
+                    <p>Based on the input, there is a <strong>low likelihood</strong> of heart disease.</p>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+</body>
+</html>
